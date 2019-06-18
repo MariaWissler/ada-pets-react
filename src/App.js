@@ -20,12 +20,40 @@ class App extends Component {
     };
   }
 
+  onSelectPet = (petId)=>{
+    var selectedPet = this.state.petList.find((pet)=>{
+      return pet.id===petId
+    });
+    if(selectedPet){
+      this.setState({
+        currentPet:selectedPet
+      });
+    }
+  }
 
+  onDeletePet = (petId)=>{
+    var deletedPet = this.state.petList.splice((petId-1),1);
+     if(deletedPet){
+      this.setState({
+        petList:this.state.petList
+      });
+     }
+  }
+
+  onNewPet = (pet)=>{
+    var id = this.state.petList.length+1;
+    pet.id=id;
+    var newPetList = this.state.petList;
+    newPetList.push(pet);
+    this.setState({
+      PetList:newPetList
+    });
+  }
 
 
   render() {
     const { currentPet } = this.state;
-    
+    const detail =currentPet?<PetDetails currentPet={currentPet} />:"";
     return (
       <main className="App">
         <header className="app-header">
@@ -35,12 +63,14 @@ class App extends Component {
           { /* Wave 4:  Place to add the SearchBar component */ }
           <SearchBar />
         </section>
-          { /* Wave 2:  Where Pet Details should appear */ }
+          {detail}
         <section className="pet-list-wrapper">
-          { /* Wave 1:  Where PetList should appear */ }
+          { <PetList mascotas={this.state.petList}
+          selectPetCallback={this.onSelectPet}
+          deletePetCallback={this.onDeletePet} /> }
         </section>
         <section className="new-pet-form-wrapper">
-          { /* Wave 3:  Where NewPetForm should appear */ }
+          { <NewPetForm newPetForm={this.onNewPet}/> }
         </section>
       </main>
     );

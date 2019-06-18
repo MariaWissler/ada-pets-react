@@ -7,9 +7,21 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const PetList = (props) => {
 
-
+   let petList = props.mascotas.map((item,index)=>{
+    return (<PetCard id={item.id}
+       name={item.name}
+       species={item.species} 
+       about={item.about} 
+       location={item.location} 
+       key={index}
+       selectPetCallback={props.selectPetCallback} 
+       deletePetCallback={props.deletePetCallback}/>
+    )
+  });
+  
   return (
     <div className="card-group">
+       {petList} 
     </div>
   )
 }
